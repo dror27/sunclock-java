@@ -9,6 +9,22 @@ public class SunClockLocale {
 	private double		longitude;
 	private TimeZone	timeZone;
 	
+	public SunClockLocale(double latitude, double longitude)
+	{
+		this(latitude, longitude, TimeZone.getDefault());
+	}
+	
+	public SunClockLocale()
+	{
+		this(32.0666700, 34.7666700);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return String.format("lat,long: %1$f,%2$f at %3$s", latitude, longitude, timeZone.getID());
+	}
+	
 	public TimeZone getTimeZone() {
 		return timeZone;
 	}
@@ -22,16 +38,6 @@ public class SunClockLocale {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.timeZone = timeZone;
-	}
-	
-	public SunClockLocale(double latitude, double longitude)
-	{
-		this(latitude, longitude, TimeZone.getDefault());
-	}
-	
-	public SunClockLocale()
-	{
-		this(32.0666700, 34.7666700);
 	}
 	
 	public Calendar getCalendar()

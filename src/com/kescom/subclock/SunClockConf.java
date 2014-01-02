@@ -10,10 +10,16 @@ public class SunClockConf {
 	{
 		// install default values
 		scuPerDay = 24;
-		scuAtSunrise = 6;
-		scuAtSunset = 18;
+		scuAtSunrise = 7;
+		scuAtSunset = 20;
 	}
 
+	@Override
+	public String toString()
+	{
+		return String.format("effective window: %1$.1f/%3$.1f to %2$.1f/%3$.1f", scuAtSunrise, scuAtSunset, scuPerDay);
+	}
+	
 	public double getScuPerDay() {
 		return scuPerDay;
 	}

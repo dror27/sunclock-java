@@ -10,6 +10,14 @@ public class SunClock {
 	static private long				MSEC_PER_DAY = (1000 * 60 * 60 * 24);
 	
 	private SunClockConf			conf;
+	public SunClockConf getConf() {
+		return conf;
+	}
+
+	public SunClockLocale getLocale() {
+		return locale;
+	}
+
 	private SunClockLocale			locale;
 	
 	private SunriseSunsetCalculator	calc;
@@ -98,29 +106,41 @@ public class SunClock {
 	{
 		// start with the current date
 		Calendar		date = locale.getCalendar();
+		long			delta;
+		boolean			sunsetBased = false;
 		
-		// move back to midnight
-		date.set(Calendar.HOUR_OF_DAY, 0);
-		date.set(Calendar.MINUTE, 0);
-		date.set(Calendar.MILLISECOND, 0);
 		
-		// move to sunrise
-		long			delta = Math.round(conf.getScuAtSunrise() / conf.getScuPerDay() * MSEC_PER_DAY);
-		date.add(Calendar.MILLISECOND, (int)delta);
+		if ( !sunsetBased )
+		{
+			// move back to midnight
+			date.set(Calendar.HOUR_OF_DAY, 0);
+			date.set(Calendar.MINUTE, 0);
+			date.set(Calendar.MILLISECOND, 0);
+			
+			// move to sunrise
+			delta = Math.round(conf.getScuAtSunrise() / conf.getScuPerDay() * MSEC_PER_DAY);
+			date.add(Calendar.MILLISECOND, (int)delta);
+		}
+		else
+		{
+			// move to actual sunrise
+			date = calcSunset(date);
+		}
+		
 		
 		// daylight?
 		if ( sc >= 0 && sc <= 0.5 )
 		{
-			delta = Math.round(sc * (conf.getScuAtSunset() - conf.getScuAtSunrise()) / conf.getScuPerDay() * MSEC_PER_DAY);
+			delta = Math.round(2 * sc * (conf.getScuAtSunset() - conf.getScuAtSunrise()) / conf.getScuPerDay() * MSEC_PER_DAY);
 			date.add(Calendar.MILLISECOND, (int)delta);
 			
 			return date;
 		}
 		else if ( sc <= 0 )
 		{
-			delta = Math.round(sc * (- conf.getScuAtSunrise() + conf.getScuPerDay() - conf.getScuAtSunset() ) / conf.getScuPerDay() * MSEC_PER_DAY);
+			delta = Math.round(2 * sc * (conf.getScuAtSunrise() + conf.getScuPerDay() - conf.getScuAtSunset() ) / conf.getScuPerDay() * MSEC_PER_DAY);
 			
-			date.add(Calendar.MILLISECOND, -(int)delta);
+			date.add(Calendar.MILLISECOND, (int)delta);
 			
 			return date;
 		}
@@ -130,7 +150,7 @@ public class SunClock {
 			delta = Math.round((conf.getScuAtSunset() - conf.getScuAtSunrise()) / conf.getScuPerDay() * MSEC_PER_DAY);
 			date.add(Calendar.MILLISECOND, (int)delta);
 
-			delta = Math.round((sc - 0.5) * (conf.getScuAtSunrise() + conf.getScuPerDay() - conf.getScuAtSunset()) / conf.getScuPerDay() * MSEC_PER_DAY);
+			delta = Math.round(2 * (sc - 0.5) * (conf.getScuAtSunrise() + conf.getScuPerDay() - conf.getScuAtSunset()) / conf.getScuPerDay() * MSEC_PER_DAY);
 			date.add(Calendar.MILLISECOND, (int)delta);
 			
 			return date;
