@@ -1,4 +1,4 @@
-package com.kescom.subclock;
+package com.kescom.sunclock;
 
 @SuppressWarnings("serial")
 public class SunClockException extends Exception {

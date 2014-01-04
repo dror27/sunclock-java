@@ -1,10 +1,10 @@
-package com.kescom.subclock.test;
+package com.kescom.sunclock.test;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import com.kescom.subclock.SunClock;
-import com.kescom.subclock.SunClockException;
+import com.kescom.sunclock.SunClock;
+import com.kescom.sunclock.SunClockException;
 
 public class TestMain2 {
 

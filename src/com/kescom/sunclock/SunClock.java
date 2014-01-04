@@ -1,4 +1,4 @@
-package com.kescom.subclock;
+package com.kescom.sunclock;
 
 import java.util.Calendar;
 

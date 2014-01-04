@@ -1,4 +1,4 @@
-package com.kescom.subclock;
+package com.kescom.sunclock;
 
 public class SunClockConf {
 
